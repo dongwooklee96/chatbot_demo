@@ -1,9 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { OpenAIEmbeddings } from 'langchain/embeddings';
-import { PineconeStore } from 'langchain/vectorstores';
-import { makeChain } from '@/utils/makechain';
-import { pinecone } from '@/utils/pinecone-client';
-import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
+import type {NextApiRequest, NextApiResponse} from 'next';
+import {OpenAIEmbeddings} from 'langchain/embeddings';
+import {PineconeStore} from 'langchain/vectorstores';
+import {makeChain} from '@/utils/makechain';
+import {pinecone} from '@/utils/pinecone-client';
+import {PINECONE_INDEX_NAME, PINECONE_NAME_SPACE} from '@/config/pinecone';
+import {v4 as uuidv4} from "uuid";
+import redis from "@/utils/redis";
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -56,10 +59,18 @@ export default async function handler(
       chat_history: history || [],
     });
 
+    const obj = response;
+    const text = obj['text'];
+
+    const uuid = uuidv4();
+    redis.set(uuid, text);
+
+    // response.uuid = uuid
+    console.log('uuid', uuid);
     console.log('response', response);
     //console.log('response', response["response"]);
     //sendData(response.response)
-     sendData(JSON.stringify({ response })); // works 
+     sendData(JSON.stringify({ response, uuid })); // works
     // sendData(JSON.stringify({ sourceDocs: response.sourceDocuments }));
   } catch (error) {
     console.log('error', error);

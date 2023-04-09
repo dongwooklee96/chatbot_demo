@@ -10,6 +10,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "dev2": "next dev -p 5555",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc --noEmit",
@@ -33,12 +34,14 @@
     "react-dom": "18.2.0",
     "react-markdown": "^8.0.5",
     "react-router-dom": "^6.10.0",
-    "tailwind-merge": "^1.10.0"
+    "tailwind-merge": "^1.10.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.14.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/parser": "^5.54.0",
     "autoprefixer": "^10.4.13",
     "eslint": "8.35.0",
