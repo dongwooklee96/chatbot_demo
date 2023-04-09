@@ -12,9 +12,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { question, history } = req.body;
-//   console.log('history:');
-//   console.log(history);
+  //const { question, history } = req.body;
+  const history = req.query.history;
+  const question = req.query.question;
+  // console.log('history:', history);
+  // console.log('question', question);
 
   if (!question) {
     return res.status(400).json({ message: 'No question in the request' });
