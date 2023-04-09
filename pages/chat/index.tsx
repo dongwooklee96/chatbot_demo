@@ -207,36 +207,6 @@ export default function Index() {
                                                     </ReactMarkdown>
                                                 </div>
                                             </div>
-                                            {message.sourceDocs && (
-                                                <div
-                                                    className="p-5"
-                                                    key={`sourceDocsAccordion-${index}`}
-                                                >
-                                                    <Accordion
-                                                        type="single"
-                                                        collapsible
-                                                        className="flex-col"
-                                                    >
-                                                        {message.sourceDocs.map((doc, index) => (
-                                                            <div key={`messageSourceDocs-${index}`}>
-                                                                <AccordionItem value={`item-${index}`}>
-                                                                    <AccordionTrigger>
-                                                                        <h3>Source {index + 1}</h3>
-                                                                    </AccordionTrigger>
-                                                                    <AccordionContent>
-                                                                        <ReactMarkdown linkTarget="_blank">
-                                                                            {doc.pageContent}
-                                                                        </ReactMarkdown>
-                                                                        <p className="mt-2">
-                                                                            <b>Source:</b> {doc.metadata.source}
-                                                                        </p>
-                                                                    </AccordionContent>
-                                                                </AccordionItem>
-                                                            </div>
-                                                        ))}
-                                                    </Accordion>
-                                                </div>
-                                            )}
                                         </>
                                     );
                                 })}
@@ -276,7 +246,7 @@ export default function Index() {
                       name="userInput"
                       placeholder={
                           loading
-                              ? 'Waiting for response...'
+                              ? '답변을 기다리고 있습니다...'
                               : '당신의 대화 기록을 입력하세요.'
                       }
                       value={query}
@@ -313,11 +283,6 @@ export default function Index() {
                         )}
                     </main>
                 </div>
-                <footer className="m-auto p-4">
-                    <a href="https://twitter.com/mayowaoshin">
-                        Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
-                    </a>
-                </footer>
             </Layout>
         </>
     );

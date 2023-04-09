@@ -6,6 +6,7 @@ import {pinecone} from '@/utils/pinecone-client';
 import {PINECONE_INDEX_NAME, PINECONE_NAME_SPACE} from '@/config/pinecone';
 import {v4 as uuidv4} from "uuid";
 import redis from "@/utils/redis";
+import {HOMER_PROMPT, SHELDON_PROMPT, TRUMP_PROMPT} from "@/utils/prompt/prompt";
 
 
 export default async function handler(
@@ -13,6 +14,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   //const { question, history } = req.body;
+  const character = req.query.character;
   const history = req.query.history;
   const question = req.query.question;
   // console.log('history:', history);
@@ -48,11 +50,19 @@ export default async function handler(
   };
 
 //   sendData(JSON.stringify({ data: '' }));
+  let prompt = null;
+  if (character == '1') {
+    prompt = HOMER_PROMPT;
+  } else if (character == '2') {
+    prompt = TRUMP_PROMPT;
+  } else {
+    prompt = SHELDON_PROMPT;
+  }
 
   //create chain
   const chain = makeChain(vectorStore, (token: string) => {
     //sendData(JSON.stringify({ data: token }));
-  });
+  }, prompt);
 
   try {
     //Ask a question

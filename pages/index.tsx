@@ -1,8 +1,8 @@
 import React from 'react';
-import Home from "@/pages/home";
+import Chat from "@/pages/chat";
 
 export default function Index() {
   return (
-      <Home />
+      <Chat />
   )
 }

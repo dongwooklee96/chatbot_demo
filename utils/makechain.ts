@@ -2,11 +2,17 @@ import {OpenAIChat} from 'langchain/llms';
 import {ChatVectorDBQAChain, LLMChain, loadQAChain} from 'langchain/chains';
 import {PineconeStore} from 'langchain/vectorstores';
 import {CallbackManager} from 'langchain/callbacks';
-import {CONDENSE_PROMPT, QA_PROMPT_KOREAN2} from "@/utils/prompt/prompt";
+import {
+    CONDENSE_PROMPT,
+    SHELDON_PROMPT,
+
+} from "@/utils/prompt/prompt";
+import {BasePromptTemplate} from "langchain";
 
 export const makeChain = (
   vectorstore: PineconeStore,
   onTokenStream?: (token: string) => void,
+  prompt?: BasePromptTemplate,
 ) => {
   const questionGenerator = new LLMChain({
     llm: new OpenAIChat({ temperature: 0 }),
@@ -19,14 +25,14 @@ export const makeChain = (
       streaming: Boolean(onTokenStream),
       callbackManager: onTokenStream
         ? CallbackManager.fromHandlers({
-            async handleLLMNewToken(token, verbose=true) {
+            async handleLLMNewToken(token: string) {
               onTokenStream(token);
               console.log(token);
             },
           })
         : undefined,
     }),
-    { prompt: QA_PROMPT_KOREAN2 },
+    { prompt: prompt },
   );
 
   return new ChatVectorDBQAChain({
